@@ -1,0 +1,8 @@
+pandas
+numpy
+matplotlib
+scikit-learn
+sklearn
+ttkbootstrap
+xgboost
+ydata_profiling
