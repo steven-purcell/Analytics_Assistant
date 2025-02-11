@@ -32,3 +32,4 @@ class DataInsightsWindow:
 
         # Open the temporary file in the default web browser
         webbrowser.open(f"file://{os.path.abspath(temp_file_path)}")
+        self.window.destroy()  # Close the Tkinter window after opening the browser

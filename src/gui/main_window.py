@@ -1,7 +1,7 @@
 from tkinter import Tk, Frame, Button, Label, Toplevel, StringVar, OptionMenu
 from tkinter import ttk
 import pandas as pd
-# from data_insights_window import DataInsightsWindow
+
 
 class MainWindow:
     def __init__(self, master):
