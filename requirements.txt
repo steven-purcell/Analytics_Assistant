@@ -6,3 +6,4 @@ ttkbootstrap
 xgboost
 ydata-profiling
 tkhtmlview
+setuptools
