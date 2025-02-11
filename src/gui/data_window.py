@@ -29,7 +29,7 @@ class DataWindow:
         if file_path:
             self.data = pd.read_csv(file_path)
             self.display_data(file_path)
-            # self.window.destroy()
+            self.window.destroy()
 
     def display_data(self, file_path):
         try:

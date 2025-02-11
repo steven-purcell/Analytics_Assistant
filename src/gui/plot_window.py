@@ -2,6 +2,7 @@ from tkinter import Toplevel, Frame, Label, Button, StringVar, OptionMenu
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
 
 class PlotWindow:
     def __init__(self, master, data):
@@ -27,9 +28,17 @@ class PlotWindow:
         Button(self.window, text="Generate Correlation Heatmap", command=self.plot_heatmap).pack(pady=5)
 
     def plot_histogram(self):
+        column = self.selected_column.get()
+        data_column = self.data[column]
+
+        # # Encode categorical column if necessary
+        # if data_column.dtype == 'object' or data_column.dtype.name == 'category':
+        #     label_encoder = LabelEncoder()
+        #     data_column = label_encoder.fit_transform(data_column)
+
         plt.figure(figsize=(8, 6))
-        sns.histplot(self.data[self.selected_column.get()], kde=True)
-        plt.title(f"Histogram of {self.selected_column.get()}")
+        sns.histplot(data_column, kde=True)
+        plt.title(f"Histogram of {column}")
         plt.show()
 
     def plot_box(self):
@@ -50,8 +59,14 @@ class PlotWindow:
         plt.show()
 
     def plot_heatmap(self):
+        # Encode categorical columns if necessary
+        data_encoded = self.data.copy()
+        for column in data_encoded.select_dtypes(include=['object', 'category']).columns:
+            label_encoder = LabelEncoder()
+            data_encoded[column] = label_encoder.fit_transform(data_encoded[column])
+
         plt.figure(figsize=(10, 8))
-        correlation_matrix = self.data.corr()
+        correlation_matrix = data_encoded.corr()
         sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm')
         plt.title("Correlation Heatmap")
         plt.show()
