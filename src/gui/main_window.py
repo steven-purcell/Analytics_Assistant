@@ -1,11 +1,13 @@
-from tkinter import Tk, Frame, Button, Label
+from tkinter import Tk, Frame, Button, Label, Toplevel, StringVar, OptionMenu
 from tkinter import ttk
+import pandas as pd
+# from data_insights_window import DataInsightsWindow
 
 class MainWindow:
     def __init__(self, master):
         self.master = master
-        master.title("Data Modeling and Discovery App")
-        master.geometry("600x400")
+        master.title("Main Window")
+        master.geometry("800x600")
 
         self.frame = Frame(master)
         self.frame.pack(pady=20)
@@ -25,7 +27,10 @@ class MainWindow:
         self.model_data_button = Button(self.frame, text="Model Data", command=self.open_model_window)
         self.model_data_button.pack(pady=10)
 
-        self.data = None
+        # self.data = pd.read_csv("your_data.csv")  # Load your data here
+
+        self.data_insights_button = Button(self.frame, text="Show Data Insights", command=self.show_data_insights)
+        self.data_insights_button.pack(pady=10)
 
     def open_data_window(self):
         from .data_window import DataWindow
@@ -56,6 +61,10 @@ class MainWindow:
             self.model_window = ModelWindow(self.master, self.data)  # Pass the data argument
         else:
             print("No data loaded. Please load a CSV file first.")
+
+    def show_data_insights(self):
+        from .data_insights_window import DataInsightsWindow
+        DataInsightsWindow(self.master, self.data)
 
 def main():
     root = Tk()

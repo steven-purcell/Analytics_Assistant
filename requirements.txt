@@ -6,3 +6,4 @@ sklearn
 ttkbootstrap
 xgboost
 ydata_profiling
+tkhtmlview
