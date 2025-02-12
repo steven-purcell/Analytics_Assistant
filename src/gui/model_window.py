@@ -1,4 +1,4 @@
-from tkinter import Toplevel, Frame, Label, Text, Scrollbar, StringVar, OptionMenu, Button
+from tkinter import Toplevel, Frame, Label, Button, Text, Scrollbar, StringVar, OptionMenu
 import pandas as pd
 from models.modeling import model_data
 
@@ -40,7 +40,6 @@ class ModelWindow:
     def display_modeling(self):
         try:
             self.text_area.delete(1.0, "end")
-            # self.text_area.insert("end", "Modeling functionality will be implemented here.\n\n")
 
             # Get the selected target column
             target_column = self.target_column_var.get()
@@ -49,12 +48,18 @@ class ModelWindow:
                 return
 
             # Train models and get results
-            results = model_data(self.data, target_column)
-            # self.text_area.insert("end", "Model Training Completed.\n\n")
+            best_model_name, best_model_score, feature_importance = model_data(self.data, target_column)
 
             # Display results
-            for model_name, score in results.items():
-                self.text_area.insert("end", f"{model_name}: F1, Accuracy Score = {score}\n")
+            self.text_area.insert("end", f"Best Model: {best_model_name}\n")
+            self.text_area.insert("end", f"Score: {best_model_score}\n\n")
+
+            if feature_importance is not None:
+                self.text_area.insert("end", "Feature Importances:\n")
+                for feature, importance in zip(self.data.drop(columns=[target_column]).columns, feature_importance):
+                    self.text_area.insert("end", f"{feature}: {importance:.4f}\n")
+            else:
+                self.text_area.insert("end", "Feature importances are not available for the selected model.\n")
 
         except Exception as e:
             self.text_area.delete(1.0, "end")
